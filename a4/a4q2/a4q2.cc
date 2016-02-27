@@ -56,6 +56,60 @@ void BST_insert(BST &root, string key) {
 	}
 }
 
-void BST_delete(BST &target, BST& parent, string key) {
-	//TODO
+void BST_delete(BST &root, string key) {
+	//Find node to delete
+	BST parent = root;
+	BST node = parent;
+	while (node != NULL && key != node->key) {
+		parent = node;
+		if (key < parent->key) {
+			node = parent->left;
+		}
+		else {
+			node = parent->right;
+		}
+	}
+
+	//Node not found
+	if (node == NULL) {
+		return;
+	}
+	//No children
+	else if (node->left == NULL && node->right == NULL) {
+		delete node;
+	}
+	//One children, right
+	else if (node->left == NULL) {
+		if (parent->left == node) {
+			parent->left = node->right;
+		}
+		if (parent->right == node) {
+			parent->right = node->right;
+		}
+		delete node;
+	}
+	//One children, left
+	else if (node->right == NULL) {
+		if (parent->left == node) {
+			parent->left = node->left;
+		}
+		if (parent->right == node) {
+			parent->right = node->left;
+		}
+		delete node;
+	}
+	//Two children
+	//Find largest node in left subtree
+	else {
+		BST largestLeft = node->left;
+		while (largestLeft->right != NULL) {
+			largestLeft = largestLeft->right;
+		}
+		node->key = largestLeft->key;
+		BST_delete(largestLeft, largestLeft->key);
+	}
+}
+
+int main() {
+
 }
