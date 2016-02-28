@@ -79,7 +79,7 @@ void BST_delete(BST &root, string key) {
 		delete node;
 	}
 	//One children, right
-	else if (node->left == NULL) {
+	else if (node->left == NULL && node->right != NULL) {
 		if (parent->left == node) {
 			parent->left = node->right;
 		}
@@ -89,7 +89,7 @@ void BST_delete(BST &root, string key) {
 		delete node;
 	}
 	//One children, left
-	else if (node->right == NULL) {
+	else if (node->left != NULL && node->right == NULL) {
 		if (parent->left == node) {
 			parent->left = node->left;
 		}
