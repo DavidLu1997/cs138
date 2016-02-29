@@ -76,39 +76,73 @@ void BST_delete(BST &root, string key) {
 	if (node == NULL) {
 		return;
 	}
-	//No children
-	else if (node->left == NULL && node->right == NULL) {
-		delete node;
+
+    //Deleting root
+	else if(root->key == key) {
+        //No children
+        if(root->left == NULL && root->right == NULL) {
+            delete root;
+            root = NULL;
+        }
+        //One node, left
+        else if(root->left != NULL && root->right == NULL) {
+            BST temp = root;
+            root = root->left;
+            delete temp;
+
+        }
+        //One node, right
+        else if(root->left == NULL && root->right != NULL) {
+            BST temp = root;
+            root = root->right;
+            delete temp;
+        }
+        //Both nodes
+        else {
+            BST largestLeft = root->left;
+            while (largestLeft->right != NULL) {
+                largestLeft = largestLeft->right;
+            }
+            root->key = largestLeft->key;
+            BST_delete(largestLeft, largestLeft->key);
+        }
 	}
-	//One children, right
-	else if (node->left == NULL && node->right != NULL) {
-		if (parent->left == node) {
-			parent->left = node->right;
-		}
-		if (parent->right == node) {
-			parent->right = node->right;
-		}
-		delete node;
-	}
-	//One children, left
-	else if (node->left != NULL && node->right == NULL) {
-		if (parent->left == node) {
-			parent->left = node->left;
-		}
-		if (parent->right == node) {
-			parent->right = node->left;
-		}
-		delete node;
-	}
-	//Two children
-	//Find largest node in left subtree
+
 	else {
-		BST largestLeft = node->left;
-		while (largestLeft->right != NULL) {
-			largestLeft = largestLeft->right;
-		}
-		node->key = largestLeft->key;
-		BST_delete(largestLeft, largestLeft->key);
+        //No children
+        if (node->left == NULL && node->right == NULL) {
+            delete node;
+        }
+        //One children, right
+        else if (node->left == NULL && node->right != NULL) {
+            if (parent->left == node) {
+                parent->left = node->right;
+            }
+            if (parent->right == node) {
+                parent->right = node->right;
+            }
+            delete node;
+        }
+        //One children, left
+        else if (node->left != NULL && node->right == NULL) {
+            if (parent->left == node) {
+                parent->left = node->left;
+            }
+            if (parent->right == node) {
+                parent->right = node->left;
+            }
+            delete node;
+        }
+        //Two children
+        //Find largest node in left subtree
+        else {
+            BST largestLeft = node->left;
+            while (largestLeft->right != NULL) {
+                largestLeft = largestLeft->right;
+            }
+            node->key = largestLeft->key;
+            BST_delete(largestLeft, largestLeft->key);
+        }
 	}
 }
 
