@@ -36,7 +36,7 @@ bool BST_has(const BST& root, string key) {
 void BST_print(const BST& root) {
 	if (!BST_isEmpty(root)) {
 		BST_print(root->left);
-		cout << "    \"" << root->key << "\"" << endl;
+		cout << root->key << endl;
 		BST_print(root->right);
 	}
 }
@@ -117,5 +117,8 @@ void BST_delete(BST &root, string key) {
 }
 
 int main() {
-
+	BST b;
+	BST_init(b);
+	BST_insert(b, "derp");
+	BST_delete(b, "derp");
 }
