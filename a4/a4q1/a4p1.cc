@@ -84,8 +84,6 @@ struct PQnode {
 	int priority;
 	Queue q;
 	PQnode *next;
-	int size;
-	int numPriority;
 };
 
 typedef PQnode* PQ;
@@ -106,8 +104,7 @@ void enterPQ(PQ& pq, string val, int priority) {
 		pq->next = NULL;
 		initQ(pq->q);
 		enterQ(pq->q, val);
-		pq->numPriority = 1;
-		pq->size = 1;
+		return;
 	}
 
 	//Not empty
@@ -121,7 +118,7 @@ void enterPQ(PQ& pq, string val, int priority) {
 
 		//If priority exists
 		if (temp->priority == priority) {
-			enterQ(temp->next->q, val);
+			enterQ(temp->q, val);
 		}
 
 		//Does not exist, between current and next
@@ -132,7 +129,6 @@ void enterPQ(PQ& pq, string val, int priority) {
 			temp->next = t;
 			initQ(t->q);
 			enterQ(t->q, val);
-			pq->numPriority++;
 		}
 
 		//Does not exist, less than current
@@ -144,11 +140,8 @@ void enterPQ(PQ& pq, string val, int priority) {
 			pq = t;
 			initQ(t->q);
 			enterQ(t->q, val);
-			pq->numPriority++;
 		}
 	}
-
-	pq->size++;
 }
 
 string firstPQ(const PQ& pq) {
@@ -170,14 +163,19 @@ void leavePQ(PQ& pq) {
 		if (pq == NULL) {
 			return;
 		}
-		pq->numPriority--;
 	}
-
-	pq->size--;
 }
 
 int sizePQ(const PQ& pq) {
-	return pq->size;
+	if (pq == NULL)
+		return 0;
+	PQ temp = pq;
+	int size = 0;
+	while (temp != NULL) {
+		size += temp->q.size;
+		temp = temp->next;
+	}
+	return size;
 }
 
 int sizeByPriority(const PQ& pq, int priority) {
@@ -192,22 +190,289 @@ int sizeByPriority(const PQ& pq, int priority) {
 }
 
 int numPriorities(const PQ& pq) {
-	return pq->numPriority;
+	if (pq == NULL)
+		return 0;
+	PQ temp = pq;
+	int size = 0;
+	while (temp != NULL) {
+		size++;
+		temp = temp->next;
+	}
+	return size;
 }
 
 int main() {
-
-	PQ pq1 = new PQnode;
-	initPQ(pq1);
-	enterPQ(pq1, "derp", 0);
-	enterPQ(pq1, "herp", 2);
-	enterPQ(pq1, "cerp", 1);
-	enterPQ(pq1, "cherp", 1);
-	leavePQ(pq1);
-	enterPQ(pq1, "nigga", 0);
-	leavePQ(pq1);
-	leavePQ(pq1);
-	leavePQ(pq1);
-	leavePQ(pq1);
-	cout << isEmptyPQ(pq1) << endl;
+	PQ pq;
+	initPQ(pq);
+	{
+		assert(sizePQ(pq) == 0);
+		assert(isEmptyPQ(pq));
+		assert(sizeByPriority(pq, 0) == 0);
+		assert(sizeByPriority(pq, 1) == 0);
+		assert(sizeByPriority(pq, 2) == 0);
+		assert(sizeByPriority(pq, 3) == 0);
+		assert(sizeByPriority(pq, 4) == 0);
+		assert(sizeByPriority(pq, 5) == 0);
+		assert(numPriorities(pq) == 0);
+	}
+	enterPQ(pq, "onething", 3);
+	{
+		assert(!isEmptyPQ(pq));
+		assert(firstPQ(pq) == "onething");
+		assert(sizePQ(pq) == 1);
+		assert(sizeByPriority(pq, 0) == 0);
+		assert(sizeByPriority(pq, 1) == 0);
+		assert(sizeByPriority(pq, 2) == 0);
+		assert(sizeByPriority(pq, 3) == 1);
+		assert(sizeByPriority(pq, 4) == 0);
+		assert(sizeByPriority(pq, 5) == 0);
+		assert(numPriorities(pq) == 1);
+	}
+	leavePQ(pq);
+	{
+		assert(sizePQ(pq) == 0);
+		assert(isEmptyPQ(pq));
+		assert(sizeByPriority(pq, 0) == 0);
+		assert(sizeByPriority(pq, 1) == 0);
+		assert(sizeByPriority(pq, 2) == 0);
+		assert(sizeByPriority(pq, 3) == 0);
+		assert(sizeByPriority(pq, 4) == 0);
+		assert(sizeByPriority(pq, 5) == 0);
+		assert(numPriorities(pq) == 0);
+	}
+	enterPQ(pq, "p3e0", 3);
+	{
+		assert(!isEmptyPQ(pq));
+		assert(firstPQ(pq) == "p3e0");
+		assert(sizePQ(pq) == 1);
+		assert(sizeByPriority(pq, 0) == 0);
+		assert(sizeByPriority(pq, 1) == 0);
+		assert(sizeByPriority(pq, 2) == 0);
+		assert(sizeByPriority(pq, 3) == 1);
+		assert(sizeByPriority(pq, 4) == 0);
+		assert(sizeByPriority(pq, 5) == 0);
+		assert(numPriorities(pq) == 1);
+	}
+	enterPQ(pq, "p3e1", 3);
+	{
+		assert(!isEmptyPQ(pq));
+		assert(firstPQ(pq) == "p3e0");
+		assert(sizePQ(pq) == 2);
+		assert(sizeByPriority(pq, 0) == 0);
+		assert(sizeByPriority(pq, 1) == 0);
+		assert(sizeByPriority(pq, 2) == 0);
+		assert(sizeByPriority(pq, 3) == 2);
+		assert(sizeByPriority(pq, 4) == 0);
+		assert(sizeByPriority(pq, 5) == 0);
+		assert(numPriorities(pq) == 1);
+	}
+	enterPQ(pq, "p2e0", 2);
+	{
+		assert(!isEmptyPQ(pq));
+		assert(firstPQ(pq) == "p2e0");
+		assert(sizePQ(pq) == 3);
+		assert(sizeByPriority(pq, 0) == 0);
+		assert(sizeByPriority(pq, 1) == 0);
+		assert(sizeByPriority(pq, 2) == 1);
+		assert(sizeByPriority(pq, 3) == 2);
+		assert(sizeByPriority(pq, 4) == 0);
+		assert(sizeByPriority(pq, 5) == 0);
+		assert(numPriorities(pq) == 2);
+	}
+	enterPQ(pq, "p5e0", 5);
+	{
+		assert(!isEmptyPQ(pq));
+		assert(firstPQ(pq) == "p2e0");
+		assert(sizePQ(pq) == 4);
+		assert(sizeByPriority(pq, 0) == 0);
+		assert(sizeByPriority(pq, 1) == 0);
+		assert(sizeByPriority(pq, 2) == 1);
+		assert(sizeByPriority(pq, 3) == 2);
+		assert(sizeByPriority(pq, 4) == 0);
+		assert(sizeByPriority(pq, 5) == 1);
+		assert(numPriorities(pq) == 3);
+	}
+	enterPQ(pq, "p2e1", 2);
+	{
+		assert(!isEmptyPQ(pq));
+		assert(firstPQ(pq) == "p2e0");
+		assert(sizePQ(pq) == 5);
+		assert(sizeByPriority(pq, 0) == 0);
+		assert(sizeByPriority(pq, 1) == 0);
+		assert(sizeByPriority(pq, 2) == 2);
+		assert(sizeByPriority(pq, 3) == 2);
+		assert(sizeByPriority(pq, 4) == 0);
+		assert(sizeByPriority(pq, 5) == 1);
+		assert(numPriorities(pq) == 3);
+	}
+	enterPQ(pq, "p2e2", 2);
+	{
+		assert(!isEmptyPQ(pq));
+		assert(firstPQ(pq) == "p2e0");
+		assert(sizePQ(pq) == 6);
+		assert(sizeByPriority(pq, 0) == 0);
+		assert(sizeByPriority(pq, 1) == 0);
+		assert(sizeByPriority(pq, 2) == 3);
+		assert(sizeByPriority(pq, 3) == 2);
+		assert(sizeByPriority(pq, 4) == 0);
+		assert(sizeByPriority(pq, 5) == 1);
+		assert(numPriorities(pq) == 3);
+	}
+	enterPQ(pq, "p1e0", 1);
+	{
+		assert(!isEmptyPQ(pq));
+		assert(firstPQ(pq) == "p1e0");
+		assert(sizePQ(pq) == 7);
+		assert(sizeByPriority(pq, 0) == 0);
+		assert(sizeByPriority(pq, 1) == 1);
+		assert(sizeByPriority(pq, 2) == 3);
+		assert(sizeByPriority(pq, 3) == 2);
+		assert(sizeByPriority(pq, 4) == 0);
+		assert(sizeByPriority(pq, 5) == 1);
+		assert(numPriorities(pq) == 4);
+	}
+	enterPQ(pq, "p1e1", 1);
+	{
+		assert(!isEmptyPQ(pq));
+		assert(firstPQ(pq) == "p1e0");
+		assert(sizePQ(pq) == 8);
+		assert(sizeByPriority(pq, 0) == 0);
+		assert(sizeByPriority(pq, 1) == 2);
+		assert(sizeByPriority(pq, 2) == 3);
+		assert(sizeByPriority(pq, 3) == 2);
+		assert(sizeByPriority(pq, 4) == 0);
+		assert(sizeByPriority(pq, 5) == 1);
+		assert(numPriorities(pq) == 4);
+	}
+	leavePQ(pq);
+	{
+		assert(!isEmptyPQ(pq));
+		assert(firstPQ(pq) == "p1e1");
+		assert(sizePQ(pq) == 7);
+		assert(sizeByPriority(pq, 0) == 0);
+		assert(sizeByPriority(pq, 1) == 1);
+		assert(sizeByPriority(pq, 2) == 3);
+		assert(sizeByPriority(pq, 3) == 2);
+		assert(sizeByPriority(pq, 4) == 0);
+		assert(sizeByPriority(pq, 5) == 1);
+		assert(numPriorities(pq) == 4);
+	}
+	enterPQ(pq, "p0e0", 0);
+	{
+		assert(!isEmptyPQ(pq));
+		assert(firstPQ(pq) == "p0e0");
+		assert(sizePQ(pq) == 8);
+		assert(sizeByPriority(pq, 0) == 1);
+		assert(sizeByPriority(pq, 1) == 1);
+		assert(sizeByPriority(pq, 2) == 3);
+		assert(sizeByPriority(pq, 3) == 2);
+		assert(sizeByPriority(pq, 4) == 0);
+		assert(sizeByPriority(pq, 5) == 1);
+		assert(numPriorities(pq) == 5);
+	}
+	leavePQ(pq);
+	{
+		assert(!isEmptyPQ(pq));
+		assert(firstPQ(pq) == "p1e1");
+		assert(sizePQ(pq) == 7);
+		assert(sizeByPriority(pq, 0) == 0);
+		assert(sizeByPriority(pq, 1) == 1);
+		assert(sizeByPriority(pq, 2) == 3);
+		assert(sizeByPriority(pq, 3) == 2);
+		assert(sizeByPriority(pq, 4) == 0);
+		assert(sizeByPriority(pq, 5) == 1);
+		assert(numPriorities(pq) == 4);
+	}
+	leavePQ(pq);
+	{
+		assert(!isEmptyPQ(pq));
+		assert(firstPQ(pq) == "p2e0");
+		assert(sizePQ(pq) == 6);
+		assert(sizeByPriority(pq, 0) == 0);
+		assert(sizeByPriority(pq, 1) == 0);
+		assert(sizeByPriority(pq, 2) == 3);
+		assert(sizeByPriority(pq, 3) == 2);
+		assert(sizeByPriority(pq, 4) == 0);
+		assert(sizeByPriority(pq, 5) == 1);
+		assert(numPriorities(pq) == 3);
+	}
+	leavePQ(pq);
+	{
+		assert(!isEmptyPQ(pq));
+		assert(firstPQ(pq) == "p2e1");
+		assert(sizePQ(pq) == 5);
+		assert(sizeByPriority(pq, 0) == 0);
+		assert(sizeByPriority(pq, 1) == 0);
+		assert(sizeByPriority(pq, 2) == 2);
+		assert(sizeByPriority(pq, 3) == 2);
+		assert(sizeByPriority(pq, 4) == 0);
+		assert(sizeByPriority(pq, 5) == 1);
+		assert(numPriorities(pq) == 3);
+	}
+	leavePQ(pq);
+	{
+		assert(!isEmptyPQ(pq));
+		assert(firstPQ(pq) == "p2e2");
+		assert(sizePQ(pq) == 4);
+		assert(sizeByPriority(pq, 0) == 0);
+		assert(sizeByPriority(pq, 1) == 0);
+		assert(sizeByPriority(pq, 2) == 1);
+		assert(sizeByPriority(pq, 3) == 2);
+		assert(sizeByPriority(pq, 4) == 0);
+		assert(sizeByPriority(pq, 5) == 1);
+		assert(numPriorities(pq) == 3);
+	}
+	leavePQ(pq);
+	{
+		assert(!isEmptyPQ(pq));
+		assert(firstPQ(pq) == "p3e0");
+		assert(sizePQ(pq) == 3);
+		assert(sizeByPriority(pq, 0) == 0);
+		assert(sizeByPriority(pq, 1) == 0);
+		assert(sizeByPriority(pq, 2) == 0);
+		assert(sizeByPriority(pq, 3) == 2);
+		assert(sizeByPriority(pq, 4) == 0);
+		assert(sizeByPriority(pq, 5) == 1);
+		assert(numPriorities(pq) == 2);
+	}
+	leavePQ(pq);
+	{
+		assert(!isEmptyPQ(pq));
+		assert(firstPQ(pq) == "p3e1");
+		assert(sizePQ(pq) == 2);
+		assert(sizeByPriority(pq, 0) == 0);
+		assert(sizeByPriority(pq, 1) == 0);
+		assert(sizeByPriority(pq, 2) == 0);
+		assert(sizeByPriority(pq, 3) == 1);
+		assert(sizeByPriority(pq, 4) == 0);
+		assert(sizeByPriority(pq, 5) == 1);
+		assert(numPriorities(pq) == 2);
+	}
+	leavePQ(pq);
+	{
+		assert(!isEmptyPQ(pq));
+		assert(firstPQ(pq) == "p5e0");
+		assert(sizePQ(pq) == 1);
+		assert(sizeByPriority(pq, 0) == 0);
+		assert(sizeByPriority(pq, 1) == 0);
+		assert(sizeByPriority(pq, 2) == 0);
+		assert(sizeByPriority(pq, 3) == 0);
+		assert(sizeByPriority(pq, 4) == 0);
+		assert(sizeByPriority(pq, 5) == 1);
+		assert(numPriorities(pq) == 1);
+	}
+	leavePQ(pq);
+	{
+		assert(isEmptyPQ(pq));
+		assert(sizePQ(pq) == 0);
+		assert(sizeByPriority(pq, 0) == 0);
+		assert(sizeByPriority(pq, 1) == 0);
+		assert(sizeByPriority(pq, 2) == 0);
+		assert(sizeByPriority(pq, 3) == 0);
+		assert(sizeByPriority(pq, 4) == 0);
+		assert(sizeByPriority(pq, 5) == 0);
+		assert(numPriorities(pq) == 0);
+	}
+	std::cout << "shit worked, yo" << std::endl;
+	return 0;
 }
