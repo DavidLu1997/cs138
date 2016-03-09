@@ -60,8 +60,8 @@ void BST_insert(BST &root, string key) {
 
 void BST_delete(BST &root, string key) {
 	//Find node to delete
-	BST parent = root;
-	BST node = parent;
+	BST parent = NULL;
+	BST node = root;
 	while (node != NULL && key != node->key) {
 		parent = node;
 		if (key < parent->key) {
@@ -77,72 +77,84 @@ void BST_delete(BST &root, string key) {
 		return;
 	}
 
-    //Deleting root
-	else if(root->key == key) {
-        //No children
-        if(root->left == NULL && root->right == NULL) {
-            delete root;
-            root = NULL;
-        }
-        //One node, left
-        else if(root->left != NULL && root->right == NULL) {
-            BST temp = root;
-            root = root->left;
-            delete temp;
-
-        }
-        //One node, right
-        else if(root->left == NULL && root->right != NULL) {
-            BST temp = root;
-            root = root->right;
-            delete temp;
-        }
-        //Both nodes
-        else {
-            BST largestLeft = root->left;
-            while (largestLeft->right != NULL) {
-                largestLeft = largestLeft->right;
-            }
-            root->key = largestLeft->key;
-            BST_delete(largestLeft, largestLeft->key);
-        }
+	//Deleting root
+	else if (root->key == key && parent == NULL) {
+		//No children
+		if (root->left == NULL && root->right == NULL) {
+			delete root;
+			root = NULL;
+		}
+		//One node, left
+		else if (root->left != NULL && root->right == NULL) {
+			BST temp = root;
+			root = root->left;
+			delete temp;
+			temp = NULL;
+		}
+		//One node, right
+		else if (root->left == NULL && root->right != NULL) {
+			BST temp = root;
+			root = root->right;
+			delete temp;
+			temp = NULL;
+		}
+		//Both nodes
+		else {
+			BST largestLeft = root->left;
+			while (largestLeft->right != NULL) {
+				largestLeft = largestLeft->right;
+			}
+			string temp = largestLeft->key;
+			BST_delete(root, largestLeft->key);
+			root->key = temp;
+		}
 	}
 
 	else {
-        //No children
-        if (node->left == NULL && node->right == NULL) {
-            delete node;
-        }
-        //One children, right
-        else if (node->left == NULL && node->right != NULL) {
-            if (parent->left == node) {
-                parent->left = node->right;
-            }
-            if (parent->right == node) {
-                parent->right = node->right;
-            }
-            delete node;
-        }
-        //One children, left
-        else if (node->left != NULL && node->right == NULL) {
-            if (parent->left == node) {
-                parent->left = node->left;
-            }
-            if (parent->right == node) {
-                parent->right = node->left;
-            }
-            delete node;
-        }
-        //Two children
-        //Find largest node in left subtree
-        else {
-            BST largestLeft = node->left;
-            while (largestLeft->right != NULL) {
-                largestLeft = largestLeft->right;
-            }
-            node->key = largestLeft->key;
-            BST_delete(largestLeft, largestLeft->key);
-        }
+		//No children
+		if (node->left == NULL && node->right == NULL) {
+			if (parent->left == node) {
+				parent->left = NULL;
+			}
+			else {
+				parent->right = NULL;
+			}
+			delete node;
+			node = NULL;
+		}
+		//One children, right
+		else if (node->left == NULL && node->right != NULL) {
+			if (parent->left == node) {
+				parent->left = node->right;
+			}
+			if (parent->right == node) {
+				parent->right = node->right;
+			}
+			delete node;
+			node = NULL;
+		}
+		//One children, left
+		else if (node->left != NULL && node->right == NULL) {
+			if (parent->left == node) {
+				parent->left = node->left;
+			}
+			if (parent->right == node) {
+				parent->right = node->left;
+			}
+			delete node;
+			node = NULL;
+		}
+		//Two children
+		//Find largest node in left subtree
+		else {
+			BST largestLeft = node->left;
+			while (largestLeft->right != NULL) {
+				largestLeft = largestLeft->right;
+			}
+			string temp = largestLeft->key;
+			BST_delete(root, largestLeft->key);
+			node->key = temp;
+		}
 	}
 }
 
@@ -237,7 +249,7 @@ void SBL_init(SBL& sbl) {
 	BST_init(sbl.root);
 }
 
-int SBL_Size(const SBL& sbl) {
+int SBL_size(const SBL& sbl) {
 	return sbl.q.size;
 }
 
@@ -246,7 +258,7 @@ void SBL_arrive(SBL& sbl, string name) {
 	BST_insert(sbl.root, name);
 }
 
-void SBL_Leave(SBL& sbl) {
+void SBL_leave(SBL& sbl) {
 	BST_delete(sbl.root, firstQ(sbl.q));
 	leaveQ(sbl.q);
 }
@@ -266,4 +278,3 @@ void SBL_printInArrivalOrder(const SBL& sbl) {
 void SBL_printInAlphabeticalOrder(const SBL& sbl) {
 	BST_print(sbl.root);
 }
-
