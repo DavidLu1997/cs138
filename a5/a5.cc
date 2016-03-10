@@ -29,7 +29,7 @@ public:
 		cout << "    Sheep " << getName() << " says \"baaa\"." << endl;
 	}
 	Sheep(string name) : Animal(name) {
-		
+
 	}
 };
 
@@ -76,7 +76,8 @@ private:
 int main() {
 	Flock *myFlock = new Flock("Spot");
 	myFlock->soundOff();
-	myFlock->addSheep("Daisy");	myFlock->addSheep("Clover");
+	myFlock->addSheep("Daisy");
+	myFlock->addSheep("Clover");
 	myFlock->addSheep("Estelle");
 	myFlock->soundOff();
 	delete myFlock;
