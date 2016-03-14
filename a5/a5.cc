@@ -14,13 +14,11 @@ private:
 };
 class Sheep : public Animal {
 public:
-	~Sheep() { }
 	void speak() const { cout << "    Sheep " << getName() << " says \"baaa\"." << endl; }
 	Sheep(string name) : Animal(name) { }
 };
 class Dog : public Animal {
 public:
-	~Dog() { }
 	void speak() const { cout << "    Dog " << getName() << " says \"woof\"." << endl; }
 	Dog(string name) : Animal(name) { }
 };
@@ -46,3 +44,7 @@ private:
 	Dog *dog;
 	vector<Sheep*> sheepList;
 };
+
+int main() {
+
+}
