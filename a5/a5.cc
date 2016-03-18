@@ -1,50 +1,45 @@
 #include <iostream>
 #include <vector>
 #include <string>
-using namespace std;
 class Animal {
 public:
 	virtual ~Animal() { }
 	virtual void speak() const = 0;
 protected:
-	Animal(string name) { this->name = name; }
-	string getName() const { return name; }
+	Animal(std::string name) { this->name = name; }
+	std::string getName() const { return name; }
 private:
-	string name;
+	std::string name;
 };
 class Sheep : public Animal {
 public:
-	void speak() const { cout << "    Sheep " << getName() << " says \"baaa\"." << endl; }
-	Sheep(string name) : Animal(name) { }
+	void speak() const { std::cout << "    Sheep " << getName() << " says \"baaa\"." << std::endl; }
+	Sheep(std::string name) : Animal(name) { }
 };
 class Dog : public Animal {
 public:
-	void speak() const { cout << "    Dog " << getName() << " says \"woof\"." << endl; }
-	Dog(string name) : Animal(name) { }
+	void speak() const { std::cout << "    Dog " << getName() << " says \"woof\"." << std::endl; }
+	Dog(std::string name) : Animal(name) { }
 };
 class Flock {
 public:
-	Flock(string dogName) { dog = new Dog(dogName); }
+	Flock(std::string dogName) { dog = new Dog(dogName); }
 	virtual ~Flock() {
 		for (int i = 0; i < sheepList.size(); i++) {
 			delete sheepList[i];
 		}
 		delete dog;
 	}
-	void addSheep(string name) { sheepList.push_back(new Sheep(name)); }
+	void addSheep(std::string name) { sheepList.push_back(new Sheep(name)); }
 	void soundOff() {
-		cout << "The flock of " << sheepList.size() << " sheep speaks!" << endl;
+		std::cout << "The flock of " << sheepList.size() << " sheep speaks!" << std::endl;
 		dog->speak();
 		for (int i = 0; i < sheepList.size(); i++) {
 			sheepList[i]->speak();
 		}
-		cout << endl;
+		std::cout << std::endl;
 	}
 private:
 	Dog *dog;
-	vector<Sheep*> sheepList;
+	std::vector<Sheep*> sheepList;
 };
-
-int main() {
-
-}
