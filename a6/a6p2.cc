@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <iomanip>
+#include <fstream>
 #include <algorithm>
 using namespace std;
 
@@ -89,6 +90,24 @@ bool HashTable::lookup (string key) const {
 
 // You implement this!
 void HashTable::remove(string key) {
+	int slot = hash(key);
+	Node* temp = table[slot];
+	Node* prev = NULL;
+	while (temp != NULL && temp->word != key) {
+		prev = temp;
+		temp = temp->next;
+	}
+
+	//Deleting first
+	if (prev == NULL && temp != NULL) {
+		table[slot] = temp->next;
+		delete temp;
+	}
+	//Any other element, connect next
+	else if (temp != NULL) {
+		prev->next = temp->next;
+		delete temp;
+	}
 }
 
 // To help you debug, if you find it useful.
@@ -170,7 +189,7 @@ public:
 	SimpleHashTable(int K) : HashTable(K) {};
 	~SimpleHashTable() {}
 private:
-	int hash(string key) {
+	int hash(string key) const {
 		int h = 0;
 		for (size_t i = 0; i < key.length(); i++) {
 			h += key[i];
@@ -178,3 +197,13 @@ private:
 		return h % getTableSize();
 	}
 };
+
+int main() {
+	fstream file("twl-words.txt", ios::in);
+	SimpleHashTable hash(100000);
+	string t;
+	while (file >> t) {
+		hash.insert(t);
+	}
+	hash.report();
+}

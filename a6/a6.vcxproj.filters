@@ -15,13 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="a6p2.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="a6p4.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="a6p1.cc">
+    <ClCompile Include="a6p3.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <fstream>
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
@@ -33,4 +34,12 @@ vector<string> powerset (string s) {
 	ans.insert(ans.end(), psetRest.begin(), psetRest.end());
     }
     return ans;
+}
+
+int main(int argc, char* argv[]) {
+	if (argc < 2) {
+		cerr << "Error, no word list file name provided." << endl;
+		return 0;
+	}
+	fstream file(argv[1], ios::in);
 }
