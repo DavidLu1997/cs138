@@ -1,3 +1,10 @@
+#include <string>
+#include <vector>
+#include <iostream>
+#include <iomanip>
+#include <algorithm>
+using namespace std;
+
 // Passive data node for hash tables.
 struct Node {
     string word;
@@ -155,3 +162,19 @@ void HashTable::report () const {
     cout << "Overflow list length:  Max = " << maxOverflowSize 
 	<< "  Median = " << median << "  Average = " << average <<  endl;
 }
+
+//SimpleHashTable
+class SimpleHashTable : public HashTable {
+public:
+	SimpleHashTable() : HashTable() {};
+	SimpleHashTable(int K) : HashTable(K) {};
+	~SimpleHashTable() {}
+private:
+	int hash(string key) {
+		int h = 0;
+		for (size_t i = 0; i < key.length(); i++) {
+			h += key[i];
+		}
+		return h % getTableSize();
+	}
+};

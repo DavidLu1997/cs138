@@ -1,3 +1,10 @@
+#include <string>
+#include <vector>
+#include <iostream>
+#include <iomanip>
+#include <algorithm>
+using namespace std;
+
 // Ancillary function for powerset.  It adds a character onto the beginning
 // of each string in a vector.
 vector<string> addChar (const vector<string>& v, char c) {

@@ -14,4 +14,15 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="a6p2.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="a6p4.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="a6p1.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
 </Project>
