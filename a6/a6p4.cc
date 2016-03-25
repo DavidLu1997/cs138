@@ -295,12 +295,12 @@ int main(int argc, char* argv[]) {
 		max = 0;
 		for (size_t i = 0; i < ps.size(); i++) {
 			//Sort
-			sort(ps[i].begin(), ps[i].end());
 			tem = scrabbleValue(ps[i]);
+			sort(ps[i].begin(), ps[i].end());
 			do {
 				//Check for existence in hashtable
 				if (hash.lookup(ps[i]) && tem > max) {
-					tem = max;
+					max = tem;
 					temp = ps[i];
 				}
 			} while (next_permutation(ps[i].begin(), ps[i].end()));
