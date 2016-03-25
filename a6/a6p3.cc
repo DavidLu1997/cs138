@@ -215,8 +215,8 @@ private:
 };
 
 int main() {
-	fstream file("twl-words.txt", ios::in);
-	SmartHashTable hash(100000);
+	fstream file("wlist1.txt", ios::in);
+	SmartHashTable hash(1000000);
 	string t;
 	while (file >> t) {
 		hash.insert(t);
