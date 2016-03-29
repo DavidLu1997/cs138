@@ -208,15 +208,15 @@ private:
 		unsigned long long h = 0;
 		for (size_t i = 0; i < key.length(); i++) {
 			//Taylor hashing, 1989 constant
-			h = h * 1989 + key[i];
+			h = (h << 10) + (h << 9) + (h << 8) + (h << 7) + (h << 6) + (h << 2) + h + key[i];
 		}
 		return h % getTableSize();
 	}
 };
 
 int main() {
-	fstream file("wlist1.txt", ios::in);
-	SmartHashTable hash(1000000);
+	fstream file("twl-words.txt", ios::in);
+	SmartHashTable hash(100000);
 	string t;
 	while (file >> t) {
 		hash.insert(t);
