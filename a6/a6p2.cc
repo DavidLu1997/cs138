@@ -206,4 +206,10 @@ int main() {
 		hash.insert(t);
 	}
 	hash.report();
+	file.close();
+	file.open("twl-words.txt", ios::in);
+	while(file >> t) {
+		hash.remove(t);
+	}
+	file.close();
 }
