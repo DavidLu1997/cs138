@@ -8,7 +8,7 @@ int scrabbleValue(string s) {
 	int v = 0;
 	for (size_t i = 0; i < s.length(); i++) {
 		if (tolower(s[i]) >= 'a' && tolower(s[i]) <= 'z') {
-			v += val[s[i] - 'a'];
+			v += val[tolower(s[i]) - 'a'];
 		}
 	}
 	return v;
@@ -16,7 +16,7 @@ int scrabbleValue(string s) {
 
 int scrabbleValue(char c) {
 	if (tolower(c) >= 'a' && tolower(c) <= 'z') {
-		return val[c - 'a'];
+		return val[tolower(c) - 'a'];
 	}
 	return 0;
 }
