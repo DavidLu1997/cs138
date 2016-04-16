@@ -1,0 +1,113 @@
+\documentclass{article}
+\usepackage{lipsum}
+\usepackage[a4paper, total={6.5in, 9.5in}]{geometry}
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.pdf, .png, .jpg}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{multicol}
+\lstset{
+	columns=fullflexible, 
+	basicstyle=\ttfamily, 
+	breaklines=true,
+	postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{red}\hookrightarrow\space}},
+	}
+
+\begin{document}
+
+\title{CS138 Abbreviated Exam Review}
+\date{\today}
+\author{David Lu ft. Tim V.}
+
+\maketitle
+
+150 minute exam, assigned seating in PAC
+
+\begin{multicols}{2}
+\section{Basic Knowledge}
+
+\begin{itemize}
+	\item{History}
+	\begin{itemize}
+		\item{Unix history}
+		\item{Unix distributions}
+		\item{GNU, RMS, Software}
+		\item{FORTRAN, COBOL, BASIC, Lisp, etc.}
+		\item{Interpreted vs. Compiled}
+	\end{itemize}
+	\item{Unix}
+	\begin{itemize}
+		\item{File Permissions (RWX)}
+		\item{Unix commands (ls, cd, mkdir, chmod, rm, cp, mv, man)}
+	\end{itemize}
+	\item{Classes}
+	\begin{itemize}
+		\item{Constructors}
+		\item{Destructors}
+		\item{Operators}
+		\item{Access controls}
+		\item{Friends}
+	\end{itemize}
+	\item{Structs}
+	\begin{itemize}
+		\item{Variables (all public)}
+		\item{Functions on structs}
+		\item{Pointers}
+	\end{itemize}
+\end{itemize}
+
+\section{Data Structures}
+
+\begin{itemize}
+	\item{Vector}
+	\item{String}
+	\item{Linked List}
+	\item{Queue}
+	\item{Double-ended Queue}
+	\item{Stack}
+	\item{Trees}
+	\item{Binary Search Trees}
+	\item{Priority Queue}
+	\item{Heap}
+	\item{Hash Tables}
+	\item{Map}
+	\item{Set}
+\end{itemize}
+
+\section{Inheritance}
+
+\begin{itemize}
+	\item{Public, protected, private inheritance}
+	\item{Virtual functions (destructor, functions, etc.)}
+	\item{Multiple inheritance}
+\end{itemize}
+
+\section{Advanced C++}
+
+\begin{itemize}
+	\item{Templates}
+	\item{Casting}
+	\item{Containers}
+	\item{Iterators}
+	\item{Algorithm Library}
+	\item{Dynamic types}
+	\item{Generics}
+	\item{Adaptors (STL + Others)}
+	\item{C++ vs. Java}
+\end{itemize}
+
+\section{C++11}
+
+\begin{itemize}
+	\item{array}
+	\item{forward\_list}
+	\item{auto}
+	\item{unsorted\_set}
+	\item{unsorted\_map}
+	\item{unsorted\_multiset}
+	\item{unsorted\_multimap}
+\end{itemize}
+	
+\end{multicols}
+\end{document}
