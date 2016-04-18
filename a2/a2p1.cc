@@ -50,8 +50,7 @@ int main() {
     string temp1, temp2;
     int temp;
 
-    while(!in.eof()) {
-        in >> temp1;
+    while(in >> temp1) {
         raw.push_back(temp1);
     }
     in.close();
@@ -90,7 +89,7 @@ int main() {
             printS(temp2);
         }
         else if(temp1 == "q") {
-            break;
+            return 0;
         }
         else {
             cerr << "Error, command is illegal." << endl;

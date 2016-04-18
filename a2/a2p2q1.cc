@@ -19,10 +19,10 @@ Node* makeList() {
     start = current;
     current->val = n;
 
-    while(!cin.eof()) {
+    while(cin >> n) {
         current->next = new Node;
         current = current->next;
-        cin >> current->val;
+        current->val = n;
     }
     current->next = NULL;
 

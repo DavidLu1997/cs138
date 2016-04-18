@@ -22,6 +22,10 @@ int main() {
 
     string c1, c2;
     cin >> c1 >> c2;
+    if((c1 != "rr" && c1 != "j" && c1 != "rl" && c1 != "c") || (c2 != "f" && c2 != "r" && c2 != "g")) {
+        cerr << "Error, command is illegal." << endl;
+        return 1;
+    }
     vector<string> s;
     string str;
     while(!cin.eof()) {
@@ -29,11 +33,6 @@ int main() {
         s.push_back(str);
     }
     s.erase(s.end());
-    cout << c1 << endl;
-    if(c1 != "rr" && c1 != "j" && c1 != "rl" && c1 != "c" && c2 != "f" && c2 != "r" && c2 != "g") {
-        cerr << "Error, command is illegal." << endl;
-        return 1;
-    }
     string out = "";
     vector<string> output;
     int c = 0;
